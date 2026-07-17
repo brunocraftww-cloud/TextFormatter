@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Text Formatter — Local Tool</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <div class="navbar-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">Text Formatter</span>
+      </div>
+      <span class="badge-offline">100% offline</span>
+    </div>
+  </nav>
+
+  <main class="container page">
+
+    <p class="lead-text">Paste your text, get it formatted with your substitution rules — everything runs locally in your browser, nothing is sent anywhere.</p>
+
+    <!-- ===================== TAB NAV ===================== -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tabBtnEditor" role="tab" aria-selected="true" aria-controls="panelEditor">
+          Editor
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tabBtnRules" role="tab" aria-selected="false" aria-controls="panelRules">
+          Rules
+        </button>
+      </li>
+    </ul>
+
+    <!-- ===================== TAB: EDITOR (default) ===================== -->
+    <section class="tab-panel active" id="panelEditor" role="tabpanel" aria-labelledby="tabBtnEditor">
+      <div class="row editor-grid">
+        <div class="col editor-col">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Original text</h2>
+              <span class="char-count" id="inputCount">0 characters</span>
+            </div>
+            <div class="card-body no-pad">
+              <textarea id="inputText" class="editor-textarea" placeholder="Paste the text exactly as you received it..." spellcheck="false"></textarea>
+            </div>
+            <div class="card-footer">
+              <button id="btnClearInput" class="btn btn-outline btn-sm">Clear</button>
+              <button id="btnPasteExample" class="btn btn-outline btn-sm">Load example</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col editor-col">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Formatted text</h2>
+              <span class="char-count" id="outputCount">0 characters</span>
+            </div>
+            <div class="card-body no-pad">
+              <textarea id="outputText" class="editor-textarea" placeholder="The result will appear here automatically..." spellcheck="false" readonly></textarea>
+            </div>
+            <div class="card-footer">
+              <button id="btnCopy" class="btn btn-primary btn-sm">Copy</button>
+              <button id="btnDownloadTxt" class="btn btn-outline btn-sm">Download .txt</button>
+              <span class="copy-flash" id="copyFlash">Copied!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: RULES ===================== -->
+    <section class="tab-panel" id="panelRules" role="tabpanel" aria-labelledby="tabBtnRules">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Substitution rules</h2>
+          <div class="toolbar">
+            <button id="btnAddRule" class="btn btn-outline btn-sm">+ New rule</button>
+            <button id="btnApply" class="btn btn-primary btn-sm">Re-apply</button>
+            <button id="btnReset" class="btn btn-danger-outline btn-sm">Reset to defaults</button>
+            <span class="v-divider"></span>
+            <button id="btnImport" class="btn btn-outline btn-sm">Import .json</button>
+            <button id="btnExport" class="btn btn-outline btn-sm">Export .json</button>
+            <button id="btnOpenLocal" class="btn btn-outline btn-sm" style="display:none;">Open local file</button>
+            <button id="btnSaveLocal" class="btn btn-outline btn-sm" style="display:none;">Save to file</button>
+            <input type="file" id="fileImportInput" accept="application/json" class="sr-only" />
+          </div>
+        </div>
+        <div class="card-body no-pad">
+          <p class="table-hint">Drag rows by the <span class="hint-handle">⠿</span> handle — or use the arrows — to reorder rules. Rules run top to bottom, so move a rule up to make it apply earlier.</p>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-drag"></th>
+                  <th class="col-group">Group</th>
+                  <th>Find</th>
+                  <th>Replace with</th>
+                  <th class="col-enabled">On</th>
+                  <th class="col-actions"></th>
+                </tr>
+              </thead>
+              <tbody id="rulesTbody">
+                <!-- rows generated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer plain">
+          <span class="status-dot"></span>
+          <span id="autosaveText">Changes are auto-saved in this browser. Use "Export .json" to keep a copy as a file.</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <strong>How it works:</strong> rules are applied top to bottom, in table order. After editing a rule, click "Re-apply" to reprocess the text right away — live updates also happen automatically as you type in the editor.
+    </footer>
+
+  </main>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
